@@ -9,12 +9,13 @@
 <body>
     <form id="form-create" method="POST" action="{{ route('movie.store') }}" enctype="multipart/form-data">
         @csrf
-        <input type="text" name="title">
-        <input type="text" name="genre">
-        <input type="text" name="country">
-        <input type="text" name="release">
-        <input type="text" name="synopsis">
-        <input type="text" name="rating">
+        <input type="text" name="title" required>
+        <input type="text" name="genre" required>
+        <input type="text" name="country" required>
+        <input type="text" name="release" required>
+        <textarea type="text" name="synopsis" required></textarea>
+        <input type="text" name="rating" required>
+        <input type="file" name="image" accept="image/*" required>
         <button type="submit">Salvar</button>
         <a href="{{ route('movie.index') }}">Voltar</a>
     </form>

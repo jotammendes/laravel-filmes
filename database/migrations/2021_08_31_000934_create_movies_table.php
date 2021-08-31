@@ -22,6 +22,7 @@ class CreateMoviesTable extends Migration
             $table->string('release',255);
             $table->text('synopsis',1000); // Por que 'text'?
             $table->string('rating',255);
+            $table->string('image'); // Comando ==> php artisan storage:link
         });
     }
 

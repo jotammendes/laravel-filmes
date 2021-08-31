@@ -16,5 +16,6 @@ class Movie extends Model
         'release',
         'synopsis',
         'rating',
+        'image',
     ];
 }
