@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use App\Models\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,26 +12,26 @@ class MovieController extends Controller
     public function index()
     {
         $movies = Movie::all();
-
-        return view('movie.index', compact('movies'));
+        return view('index', compact('movies'));
     }
 
 
     public function create()
     {
-        return view('movie.create');
+        $countries = Country::all();
+        return view('create',compact('countries'));
+
     }
 
 
     public function store(Request $request)
     {
-        $data = $request->all();
 
-        // Armazenar imagem
-        $data['image'] = $request->file('image')->store('movies', 'public');
+        $dados = $request->all();
 
-        $movie = Movie::create($data);
+        $dados['image'] = $request->file('image')->store('movies','public');
 
+        Movie::create($dados);
 
         return redirect(route('movie.index'));
     }
@@ -38,44 +39,44 @@ class MovieController extends Controller
 
     public function search(Request $request)
     {
-        $movies = Movie::where('title', 'LIKE', '%'.$request->title.'%')->get();
 
-        return view('movie.index', compact('movies'));
+        $movies = Movie::where('title', 'like' ,'%'  . $request->title .'%' )->get();
+
+        return view('index',compact('movies'));
     }
 
 
     public function edit($id)
     {
+
         $movie = Movie::find($id);
 
-        return view('movie.edit',compact('movie'));
+        return view('edit',compact('movie'));
+    }
+
+    public function destroy($id)
+    {
+        $movie = Movie::find($id);
+        // use Illuminate\Support\Facades\Storage;
+        Storage::delete('public/' . $movie->image);
+        $movie->delete();
+        return redirect(route('movie.index'));
     }
 
 
     public function update(Request $request,$id)
     {
-        $data = $request->all();
         $movie = Movie::find($id);
 
-        // Se atualizou a imagem
-        if ($request->hasFile('image')) {
-            Storage::delete('public/' . $movie->image); //excluindo a imagem antiga
-            $data['image'] = $request->file('image')->store('movies', 'public');
+        $dados = $request->all();
+
+        if($request->hasFile('image')){
+            Storage::delete('public/' . $movie->image);
+            $dados['image'] = $request->file('image')->store('movies','public');
         }
 
-        $movie->update($data);
 
-        return redirect(route('movie.index'));
-    }
-
-
-    public function destroy($id)
-    {
-        $movie = Movie::find($id);
-
-        Storage::delete('public/' . $movie->image); //excluindo a imagem
-
-        $movie->delete();
+        $movie->update($dados);
 
         return redirect(route('movie.index'));
     }
