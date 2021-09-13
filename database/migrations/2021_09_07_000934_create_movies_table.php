@@ -16,14 +16,14 @@ class CreateMoviesTable extends Migration
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('title',255);
-            $table->string('genre',255);
+            $table->string('title', 255);
+            $table->string('genre', 255);
             $table->unsignedBigInteger('country_id');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
-            $table->string('release',255);
-            $table->text('synopsis',1000);
-            $table->string('rating',255);
-            $table->string('image');
+            $table->string('release', 255);
+            $table->text('synopsis', 1000);
+            $table->string('rating', 255);
+            $table->string('image', 255);
         });
     }
 

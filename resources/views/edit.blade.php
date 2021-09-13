@@ -19,7 +19,7 @@
         <input type="text" name="rating" required value="{{$movie->rating}}">
         <input type="number" name="country_id" required value="{{$movie->country_id}}">
         <input type="file" name="image">
-        <img src="/storage/{{ $movie->image }}" style="width:100px;height:100px;" alt="poster do filme">
+        <img src="{{ $movie->image }}" style="width:100px;height:100px;" alt="poster do filme">
         <button type="submit">Enviar</button>
     </form>
 </body>

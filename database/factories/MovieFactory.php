@@ -28,8 +28,8 @@ class MovieFactory extends Factory
             'release' => $this->faker->dateTimeThisYear(),
             'country_id' => $this->faker->unique()->numberBetween(1, 10),
             'synopsis' => $this->faker->text(),
-            'rating' => "9.8",
-            'image' => "",
+            'rating' => $this->faker->numberBetween(0, 100) / 10,
+            'image' => "http://lorempixel.com.br/500/400/?" . $this->faker->numberBetween(1, 10),
         ];
     }
 

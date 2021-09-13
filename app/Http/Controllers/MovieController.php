@@ -27,11 +27,10 @@ class MovieController extends Controller
     public function store(Request $request)
     {
 
-        $dados = $request->all();
+        $datas = $request->all();
+        $datas['image'] = '/storage/' . $request->file('image')->store('movies','public');
 
-        $dados['image'] = $request->file('image')->store('movies','public');
-
-        Movie::create($dados);
+        Movie::create($datas);
 
         return redirect(route('movie.index'));
     }
@@ -54,30 +53,26 @@ class MovieController extends Controller
         return view('edit',compact('movie'));
     }
 
+    public function update(Request $request,$id)
+    {
+        $movie = Movie::find($id);
+        $datas = $request->all();
+
+        if($request->hasFile('image')){
+            Storage::delete('public/' . substr($movie->image, 9));
+            $datas['image'] = '/storage/' .  $request->file('image')->store('movies','public');
+        }
+        $movie->update($datas);
+
+        return redirect(route('movie.index'));
+    }
+
     public function destroy($id)
     {
         $movie = Movie::find($id);
         // use Illuminate\Support\Facades\Storage;
-        Storage::delete('public/' . $movie->image);
+        Storage::delete('public/' . substr($movie->image, 9));
         $movie->delete();
-        return redirect(route('movie.index'));
-    }
-
-
-    public function update(Request $request,$id)
-    {
-        $movie = Movie::find($id);
-
-        $dados = $request->all();
-
-        if($request->hasFile('image')){
-            Storage::delete('public/' . $movie->image);
-            $dados['image'] = $request->file('image')->store('movies','public');
-        }
-
-
-        $movie->update($dados);
-
         return redirect(route('movie.index'));
     }
 }

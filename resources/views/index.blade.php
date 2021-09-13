@@ -27,7 +27,7 @@
                 <button>Deletar</button>
             </form>
 
-            <img src="/storage/{{ $movie->image }}" style="width:100px;height:100px;" alt="poster do filme">
+            <img src="{{ $movie->image }}" style="width:100px;height:100px;" alt="poster do filme">
         </div>
     @endforeach
 </body>
