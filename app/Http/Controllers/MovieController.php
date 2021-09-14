@@ -19,8 +19,8 @@ class MovieController extends Controller
     public function create()
     {
         $countries = Country::all();
+        
         return view('create',compact('countries'));
-
     }
 
 
@@ -49,8 +49,9 @@ class MovieController extends Controller
     {
 
         $movie = Movie::find($id);
+        $countries = Country::all();
 
-        return view('edit',compact('movie'));
+        return view('edit',compact('movie', 'countries'));
     }
 
     public function update(Request $request,$id)

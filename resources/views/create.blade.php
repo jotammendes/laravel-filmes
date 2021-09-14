@@ -1,30 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.template')
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Filme | Adapti PS</title>
-</head>
+@section('title', 'Adicionar Filme')
 
-<body>
-    <form action="{{ route('movie.store') }}" method="POST" enctype="multipart/form-data">
+@section('content')
+    <form class="form-crud" action="{{ route('movie.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <input type="text" name="title" required>
-        <input type="text" name="genre" required>
-        <input type="text" name="release" required>
-        <input type="text" name="synopsis" required>
-        <input type="text" name="rating" required>
-        <select name="country_id" required>
+        <label for="title">Título</label>
+        <input class="input-form" type="text" id="title" name="title" required>
+        <label for="genre">Gênero</label>
+        <input class="input-form" type="text" id="genre" name="genre" required>
+        <label for="release">Lançamento</label>
+        <input class="input-form" type="date" id="release" name="release" required>
+        <label for="synopsis">Sinopse</label>
+        <textarea class="input-form" id="synopsis" name="synopsis" required></textarea>
+        <label for="rating">Nota</label>
+        <input class="input-form" type="text" id="rating" name="rating" required>
+        <label for="country_id">País</label>
+        <select class="input-form" id="country_id" name="country_id" required>
             <option value="" disabled selected>-- Escolha um pais --</option>
             @foreach($countries as $country)
                 <option value="{{ $country->id }}">{{$country->title}}</option>
             @endforeach
         </select>
-        <input type="file" name="image" required>
-        <button type="submit">Enviar</button>
+        <label for="image">Imagem</label>
+        <input class="input-form" type="file" id="image" name="image" required>
+        <button class="button-form" type="submit">Criar Filme</button>
+        <a class="button-back" href="{{ route('movie.index') }}">Voltar</a>
     </form>
-</body>
-
-</html>
+@endsection

@@ -1,27 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.template')
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Filme | Adapti PS</title>
-</head>
+@section('title', 'Adicionar Filme')
 
-<body>
-    <form action="{{ route('movie.update',$movie->id) }}" method="POST" enctype="multipart/form-data">
+@section('content')
+    <form class="form-crud" action="{{ route('movie.update',$movie->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <input type="text" name="title" required value="{{$movie->title}}">
-        <input type="text" name="genre" required value="{{$movie->genre}}">
-        <input type="text" name="release" required value="{{$movie->release}}">
-        <input type="text" name="synopsis" required value="{{$movie->synopsis}}">
-        <input type="text" name="rating" required value="{{$movie->rating}}">
-        <input type="number" name="country_id" required value="{{$movie->country_id}}">
-        <input type="file" name="image">
-        <img src="{{ $movie->image }}" style="width:100px;height:100px;" alt="poster do filme">
-        <button type="submit">Enviar</button>
+        <label for="title">Título</label>
+        <input class="input-form" type="text" id="title" name="title" value="{{$movie->title}}" required>
+        <label for="genre">Gênero</label>
+        <input class="input-form" type="text" id="genre" name="genre" value="{{$movie->genre}}" required>
+        <label for="release">Lançamento</label>
+        <input class="input-form" type="date" id="release" name="release" value="{{$movie->release}}" required>
+        <label for="synopsis">Sinopse</label>
+        <textarea class="input-form" id="synopsis" name="synopsis" required>{{$movie->synopsis}}</textarea>
+        <label for="rating">Nota</label>
+        <input class="input-form" type="text" id="rating" name="rating" value="{{$movie->rating}}" required>
+        <label for="country_id">País</label>
+        <select class="input-form" id="country_id" name="country_id" required>
+            <option value="" disabled selected>-- Escolha um pais --</option>
+            @foreach($countries as $country)
+                <option value="{{ $country->id }}" {{ $country->id==$movie->country_id ? 'selected':'' }}>{{$country->title}}</option>
+            @endforeach
+        </select>
+        <label for="image">Imagem</label>
+        <input class="input-form" type="file" id="image" name="image">
+        <img src="{{ $movie->image }}" style="width:200px;height:240px; object-fit: cover" alt="poster do filme {{$movie->title}}">
+        <button class="button-form" type="submit">Editar Filme</button>
     </form>
-</body>
-
-</html>
+    <form action="{{ route('movie.destroy',$movie->id) }}" method="POST">
+        @csrf
+        @method("DELETE")
+        <button type="submit">Deletar</button>
+    </form>
+    <a class="button-back" href="{{ route('movie.index') }}">Voltar</a>
+@endsection
